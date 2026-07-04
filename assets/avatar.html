@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Avatar Animation Test</title>
+  <link rel="stylesheet" href="avatar.css">
+</head>
+<body>
+  <main class="stage">
+    <section class="preview">
+      <img id="avatar" class="avatar" alt="avatar">
+    </section>
+
+    <nav class="controls" aria-label="Animation controls">
+      <button type="button" data-state="idle">Idle</button>
+      <button type="button" data-state="happy">Happy</button>
+      <button type="button" data-state="specialHappy">Special Happy</button>
+      <button type="button" data-state="angry">Angry</button>
+      <button type="button" id="eventHappy">Happy Event</button>
+      <button type="button" id="eventAngry">Angry Event</button>
+    </nav>
+  </main>
+
+  <script src="avatar.js"></script>
+</body>
+</html>

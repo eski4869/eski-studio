@@ -1,0 +1,121 @@
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: #101114;
+  color: #f6f6f6;
+  font-family: Consolas, "Cascadia Mono", monospace;
+}
+
+.stage {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  gap: 18px;
+  align-content: center;
+}
+
+.preview {
+  display: grid;
+  width: 420px;
+  height: 360px;
+  place-items: center;
+  background:
+    linear-gradient(45deg, #17191d 25%, transparent 25%),
+    linear-gradient(-45deg, #17191d 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #17191d 75%),
+    linear-gradient(-45deg, transparent 75%, #17191d 75%);
+  background-color: #0b0c0e;
+  background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+  background-size: 24px 24px;
+  border: 1px solid #30343b;
+}
+
+html.transparent,
+html.transparent body {
+  background: transparent;
+}
+
+html.transparent .stage {
+  min-height: 100vh;
+  gap: 0;
+}
+
+html.transparent .preview {
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  border: 0;
+}
+
+html.transparent .controls {
+  display: none;
+}
+
+.avatar {
+  width: 260px;
+  height: auto;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 10px rgba(255, 24, 24, 0.42));
+  animation: idle-sway 2.8s ease-in-out infinite;
+}
+
+.avatar.happy {
+  animation: happy-pop 0.38s ease-out infinite;
+}
+
+.avatar.angry {
+  filter: drop-shadow(0 0 10px rgba(255, 80, 20, 0.7));
+  animation: angry-shake 0.11s steps(2, end) infinite;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+button {
+  padding: 8px 12px;
+  background: #20242b;
+  color: #f6f6f6;
+  border: 1px solid #454b56;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #2a3039;
+}
+
+@keyframes idle-sway {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+
+  50% {
+    transform: translateY(-5px) rotate(1deg);
+  }
+}
+
+@keyframes happy-pop {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-8px) scale(1.04);
+  }
+}
+
+@keyframes angry-shake {
+  0%,
+  100% {
+    transform: translateX(-4px) translateY(1px) rotate(-1deg);
+  }
+
+  50% {
+    transform: translateX(4px) translateY(-1px) rotate(1deg);
+  }
+}
