@@ -117,7 +117,7 @@ function applyConfig(config) {
 function framePath(state, index) {
   const animation = animations[state];
   const assetState = animation.assetState || state;
-  return `assets/avatar/${assetState}/${String(index + 1).padStart(3, "0")}.png`;
+  return `avatar/${assetState}/${String(index + 1).padStart(3, "0")}.png`;
 }
 
 function renderFrame() {
