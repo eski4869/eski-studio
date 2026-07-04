@@ -25,16 +25,17 @@ const animations = {
 const avatar = document.getElementById("avatar");
 const params = new URLSearchParams(location.search);
 const debugMode = params.get("debug") === "1";
-const metricsBasePath = new URLSearchParams(location.search).get("metrics") || "../raw_data/attempts/current";
-const statePath = `${metricsBasePath.replace(/\/$/, "")}/current_state.tsv`;
-const pollMs = 1000;
-const happyPbGapMs = 3 * 60 * 1000;
-const specialHappyPbGapMs = 30 * 60 * 1000;
-const fallWindowMs = 10000;
-const angryFallScreens = 4;
-const happyDurationMs = 5000;
-const specialHappyDurationMs = 7000;
-const angryDurationMs = 3000;
+const configPath = params.get("config") || "avatar.config.json";
+const metricsBasePath = params.get("metrics") || "../raw_data/attempts/current";
+let statePath = `${metricsBasePath.replace(/\/$/, "")}/current_state.tsv`;
+let pollMs = 1000;
+let happyPbGapMs = 3 * 60 * 1000;
+let specialHappyPbGapMs = 30 * 60 * 1000;
+let fallWindowMs = 10000;
+let angryFallScreens = 4;
+let happyDurationMs = 5000;
+let specialHappyDurationMs = 7000;
+let angryDurationMs = 3000;
 
 let currentState = "idle";
 let frameIndex = 0;
@@ -46,6 +47,71 @@ let positionHistory = [];
 
 if (!debugMode) {
   document.documentElement.classList.add("transparent");
+}
+
+function toFetchPath(path) {
+  if (!path) {
+    return statePath;
+  }
+
+  if (/^(file|https?):/i.test(path)) {
+    return path;
+  }
+
+  if (/^[a-zA-Z]:[\\/]/.test(path)) {
+    const normalized = path.replace(/\\/g, "/");
+    const parts = normalized.split("/");
+    return `file:///${parts.map((part, index) => index === 0 ? part : encodeURIComponent(part)).join("/")}`;
+  }
+
+  return path;
+}
+
+async function loadConfig() {
+  const response = await fetch(`${configPath}?t=${Date.now()}`, { cache: "no-store" });
+  if (!response.ok) {
+    return;
+  }
+
+  const config = await response.json();
+  applyConfig(config);
+}
+
+function useNumber(value, currentValue) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : currentValue;
+}
+
+function minutesToMs(value, currentValue) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number * 60 * 1000 : currentValue;
+}
+
+function secondsToMs(value, currentValue) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number * 1000 : currentValue;
+}
+
+function applyConfig(config) {
+  statePath = toFetchPath(config.currentStateTsvPath);
+
+  pollMs = useNumber(config.pollMs, pollMs);
+
+  if (config.happy) {
+    happyPbGapMs = minutesToMs(config.happy.pbGapMinutes, happyPbGapMs);
+    happyDurationMs = secondsToMs(config.happy.durationSeconds, happyDurationMs);
+  }
+
+  if (config.specialHappy) {
+    specialHappyPbGapMs = minutesToMs(config.specialHappy.pbGapMinutes, specialHappyPbGapMs);
+    specialHappyDurationMs = secondsToMs(config.specialHappy.durationSeconds, specialHappyDurationMs);
+  }
+
+  if (config.angry) {
+    fallWindowMs = secondsToMs(config.angry.fallWindowSeconds, fallWindowMs);
+    angryFallScreens = useNumber(config.angry.fallScreens, angryFallScreens);
+    angryDurationMs = secondsToMs(config.angry.durationSeconds, angryDurationMs);
+  }
 }
 
 function framePath(state, index) {
@@ -203,7 +269,18 @@ document.getElementById("eventAngry").addEventListener("click", () => {
   setState("angry", { durationMs: 2200 });
 });
 
-setState("idle");
-tick();
-setInterval(pollMetrics, pollMs);
-pollMetrics();
+async function start() {
+  setState("idle");
+  tick();
+
+  try {
+    await loadConfig();
+  } catch {
+    // Missing or invalid config keeps the default relative path.
+  }
+
+  setInterval(pollMetrics, pollMs);
+  pollMetrics();
+}
+
+start();

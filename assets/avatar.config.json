@@ -1,0 +1,17 @@
+{
+  "currentStateTsvPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Jump King\\Content\\JKMods\\JKMetricsLite\\raw_data\\attempts\\current\\current_state.tsv",
+  "pollMs": 1000,
+  "happy": {
+    "pbGapMinutes": 3,
+    "durationSeconds": 5
+  },
+  "specialHappy": {
+    "pbGapMinutes": 30,
+    "durationSeconds": 7
+  },
+  "angry": {
+    "fallWindowSeconds": 10,
+    "fallScreens": 4,
+    "durationSeconds": 3
+  }
+}
