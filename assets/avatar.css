@@ -9,16 +9,17 @@ body {
 
 .stage {
   display: grid;
+  width: 100vw;
   min-height: 100vh;
-  place-items: center;
-  gap: 18px;
-  align-content: center;
+  place-items: start center;
+  gap: 0;
+  align-content: start;
 }
 
 .preview {
   display: grid;
-  width: 420px;
-  height: 360px;
+  width: min(100vw, 800px);
+  height: min(calc(100vh - 56px), 544px);
   place-items: center;
   background:
     linear-gradient(45deg, #17191d 25%, transparent 25%),
@@ -28,7 +29,8 @@ body {
   background-color: #0b0c0e;
   background-position: 0 0, 0 12px, 12px -12px, -12px 0;
   background-size: 24px 24px;
-  border: 1px solid #30343b;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  box-sizing: border-box;
 }
 
 html.transparent,
@@ -38,14 +40,10 @@ html.transparent body {
 
 html.transparent .stage {
   min-height: 100vh;
-  gap: 0;
 }
 
 html.transparent .preview {
-  width: 100vw;
-  height: 100vh;
   background: transparent;
-  border: 0;
 }
 
 html.transparent .controls {
@@ -64,9 +62,53 @@ html.transparent .controls {
   animation: happy-pop 0.38s ease-out infinite;
 }
 
+.avatar.special-happy {
+  animation: special-happy-slide 1.15s ease-in-out infinite;
+}
+
 .avatar.angry {
   filter: drop-shadow(0 0 10px rgba(255, 80, 20, 0.7));
   animation: angry-shake 0.11s steps(2, end) infinite;
+}
+
+.message {
+  position: relative;
+  width: 100%;
+  min-height: 56px;
+  transform: translateX(100%);
+  color: #ffff00;
+  font-family: "MS PGothic", "MS Gothic", sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 56px;
+  letter-spacing: 0;
+  opacity: 0;
+  white-space: nowrap;
+  text-shadow:
+    2px 2px 0 #ff0000,
+    3px 3px 0 #000000;
+  pointer-events: none;
+}
+
+.message-slot {
+  width: min(100vw, 800px);
+  height: 56px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-top: 0;
+  box-sizing: border-box;
+}
+
+.message.visible {
+  opacity: 1;
+  animation: message-marquee 4.2s linear both;
+}
+
+.message.angry {
+  color: #ff3333;
+  text-shadow:
+    2px 2px 0 #ffff00,
+    3px 3px 0 #000000;
 }
 
 .controls {
@@ -109,6 +151,25 @@ button:hover {
   }
 }
 
+@keyframes special-happy-slide {
+  0%,
+  100% {
+    transform: translateX(0) translateY(0) scale(1);
+  }
+
+  25% {
+    transform: translateX(-42px) translateY(-6px) scale(1.03);
+  }
+
+  50% {
+    transform: translateX(0) translateY(-12px) scale(1.05);
+  }
+
+  75% {
+    transform: translateX(42px) translateY(-6px) scale(1.03);
+  }
+}
+
 @keyframes angry-shake {
   0%,
   100% {
@@ -117,5 +178,22 @@ button:hover {
 
   50% {
     transform: translateX(4px) translateY(-1px) rotate(1deg);
+  }
+}
+
+@keyframes message-marquee {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  8%,
+  88% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
   }
 }

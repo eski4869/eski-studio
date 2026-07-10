@@ -1,17 +1,78 @@
 {
-  "currentStateTsvPath": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Jump King\\Content\\JKMods\\JKMetricsLite\\raw_data\\attempts\\current\\current_state.tsv",
+  "currentStateTsvPath": "../raw_data/attempts/current/current_state.tsv",
   "pollMs": 1000,
   "happy": {
     "pbGapMinutes": 3,
-    "durationSeconds": 5
+    "durationSeconds": 6
   },
   "specialHappy": {
     "pbGapMinutes": 30,
-    "durationSeconds": 7
+    "durationSeconds": 12
   },
   "angry": {
     "fallWindowSeconds": 10,
     "fallScreens": 4,
-    "durationSeconds": 3
+    "durationSeconds": 5
+  },
+  "scheduledMessages": {
+    "enabled": true,
+    "intervalMinutes": 20,
+    "messages": [
+      "Feel free to comment in English too!",
+      "Jump King縺ｯ莠ｺ逕滂ｼ",
+      "ゆっくりしていってね(*^_^*)",
+      "挨拶だけでもしていってね(^^)/",
+      "ネチケットを守ってご利用くださいm(__)m",
+      "直リン禁止です"
+    ]
+  },
+  "messages": {
+    "happy": [
+      "{minutes}分ぶりのPBだね！",
+      "{minutes}分ぶりのPBだよ！"
+    ],
+    "specialHappy": [
+      "やっときた！{minutes}分ぶりのPB！！",
+      "待たせたぜ！{minutes}分ぶりのPB！！",
+      "きたきたきた！{minutes}分ぶりのPB！！"
+    ],
+    "angry": [
+      "ジャンプ下手すぎ",
+      "真面目にやってますか",
+      "落ちすぎ",
+      "許さん",
+      "もっと基礎練しとけよ"
+    ]
+  },
+  "faces": {
+    "happy": [
+      "(≧∀≦)",
+      "キタ━━━(゜∀゜)━━━!!!!!",
+      "(^_^)",
+      "(^○^)",
+      "(*^_^*)",
+      "(＾ω＾)",
+      "＼(^ω^)／",
+      "( ● ´ ー ｀ ● )",
+      "(σ´∀`)σ",
+      "(・∀・)"
+    ],
+    "specialHappy": [
+      "(≧∀≦)",
+      "キタ━━━(゜∀゜)━━━!!!!!",
+      "(^○^)",
+      "＼(^ω^)／",
+      "(σ´∀`)σ"
+    ],
+    "angry": [
+      "(T_T)",
+      "(^_^;)",
+      "(>_<)",
+      "(# ﾟДﾟ)",
+      "（｀m´＃）",
+      "ヽ(｀Д´#)ﾉ",
+      "ｲﾗｲﾗ(*｀Д´*)ｲﾗｲﾗ",
+      "(●｀ε´●)ﾌﾟﾝﾌﾟﾝ"
+    ]
   }
 }
